@@ -25,7 +25,7 @@ class XML_SQ:
         'ヨリ格':'より',
     }
     
-    def __init__(self):
+    def __init__(self,DBFile):
         # データベースに接続する
         self.conn = sqlite3.connect('example.db')
         self.c = self.conn.cursor()
@@ -96,9 +96,9 @@ class XML_SQ:
 
 
 if __name__=='__main__':
-    xml_sq=XML_SQ()
+    xml_sq=XML_SQ("caseFrame/example.db")
     XML_read=False
-    
+
     # Trueであれば，DBの作成を行う
     if XML_read==True:
             file_path = "kyoto-univ-web-cf-2.0/kyoto-univ-web-cf-2.0.xml"
@@ -106,7 +106,7 @@ if __name__=='__main__':
     # Falseの場合，DBの検索を行う
     else:
         while 1:
-            try:    
+            try:
                 Main_word=input('input:')
                 Do_word=input('input:')
                 frame=xml_sq.check(Do_word,Main_word)
@@ -117,4 +117,3 @@ if __name__=='__main__':
                 break
             except:
                 pass
-            

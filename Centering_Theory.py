@@ -133,7 +133,7 @@ class Centering_Theory:
         self.logger = Logger(self.__class__.__name__)  # ログ保存用
         self.mecab_user = Mecab()
         self.Cabocha_user=Cabocha()
-        self.SQ_usr=XML_SQ()
+        self.SQ_usr=XML_SQ("caseFrame/example.db")
         #self.talk2write_user=talk2write()
 
     # 中心化理論を用いて、文章を補う####################################
