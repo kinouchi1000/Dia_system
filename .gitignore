@@ -1,0 +1,32 @@
+# DATASET類は絶対にバックアップ取らない
+*.csv
+*.txt
+*.json
+
+# コーパス,データ類
+Data/
+caseFrame/example.db
+ResponceGenerator/data/
+ResponceGenerator/logs/
+ResponceGenerator/output_prefine/
+ResponceGenerator/terminal_output/
+share/DB/
+Talk2Write/data/
+Talk2Write/logs/
+Talk2Write/prefines/
+Talk2Write/terminal_output/
+Talk2Write/test/
+
+# pycache
+__pycache__/
+caseFrame/__pycache__/
+ResponceGenerator/__pycache__/
+share/__pycache__/
+Talk2Write/__pychache__/
+
+# その他
+transformers/
+trash/
+Wrapper/
+
+
