@@ -36,7 +36,7 @@
 
 ```bash
 
-nwsgi --ini init.ini
+nwsgi --ini myapp.ini
 
 ```
 ## Dialogue Systemだけを実行する場合

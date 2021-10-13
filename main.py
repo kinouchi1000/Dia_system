@@ -1,24 +1,28 @@
 from flask import Flask
 from flask_restful import Api
-# from flask_sqlalchemy import SQLAlchemy
-from share.controllers import User, Dialogue, DialogueStart
+from share.controllers import Dialogue, DialogueStart, Login, Signup
 from share.db import db
-# from Dia_system import Dia_system
-# import datetime
+from share.middleware.token import jwt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'password'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///share/DB/dialogues_20210930.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-api = Api(app)
-db.init_app(app)
+app.config["JWT_SECRET_KEY"] = "super-secret"
 
+api = Api(app)
+
+db.init_app(app)
 with app.app_context():
     db.create_all()
 
+jwt.init_app(app)
+#jwt._set_error_handler_callbacks(api)
+
 # router
-api.add_resource(Dialogue, '/api/Dialogue/<int:user_id>')
-api.add_resource(DialogueStart, '/api/Dialogue/<int:user_id>/start')
-api.add_resource(User, '/api/User')
+api.add_resource(Dialogue, '/api/Dialogue')
+api.add_resource(DialogueStart, '/api/Dialogue/start')
+api.add_resource(Login, '/api/Login')
+api.add_resource(Signup, '/api/Signup')
 if __name__ == '__main__':
     app.run(debug=True)

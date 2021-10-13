@@ -1,0 +1,82 @@
+[uWSGI] getting INI configuration from myapp.ini
+*** Starting uWSGI 2.0.18 (64bit) on [Tue Oct 12 23:06:55 2021] ***
+compiled with version: 7.3.0 on 22 July 2019 16:35:30
+os: Linux-5.4.0-81-generic #91~18.04.1-Ubuntu SMP Fri Jul 23 13:36:29 UTC 2021
+nodename: kinouchitakahiro-ubuntu
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 36
+current working directory: /home/kinouchitakahiro/Dia_system
+detected binary path: /home/kinouchitakahiro/anaconda3/envs/DSTS/bin/uwsgi
+chdir() to /home/kinouchitakahiro/Dia_system
+*** WARNING: you are running uWSGI without its master process manager ***
+your processes number limit is 513865
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /tmp/uwsgi.sock fd 3
+Python version: 3.7.3 | packaged by conda-forge | (default, Jul  1 2019, 21:52:21)  [GCC 7.3.0]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x55ba316db5b0
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 72920 bytes (71 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 11 seconds on interpreter 0x55ba316db5b0 pid: 28574 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI worker 1 (and the only) (pid: 28574, cores: 1)
+[2021-10-12 23:18:35,893] ERROR in app: Exception on /api/User [POST]
+Traceback (most recent call last):
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/site-packages/flask_restful/__init__.py", line 467, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/site-packages/flask/views.py", line 89, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/site-packages/flask_restful/__init__.py", line 582, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "./share/controllers/UserController.py", line 13, in post
+    data = json.loads(data)
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/json/__init__.py", line 348, in loads
+    return _default_decoder.decode(s)
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/python3.7/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[pid: 28574|app: 0|req: 1/1] 133.15.57.90 () {40 vars in 559 bytes} [Tue Oct 12 23:18:35 2021] POST /api/User?data=kinouchi => generated 37 bytes in 5 msecs (HTTP/1.1 500) 2 headers in 90 bytes (1 switches on core 0)
+[uWSGI] getting INI configuration from myapp.ini
+*** Starting uWSGI 2.0.18 (64bit) on [Tue Oct 12 23:45:46 2021] ***
+compiled with version: 7.3.0 on 22 July 2019 16:35:30
+os: Linux-5.4.0-81-generic #91~18.04.1-Ubuntu SMP Fri Jul 23 13:36:29 UTC 2021
+nodename: kinouchitakahiro-ubuntu
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 36
+current working directory: /home/kinouchitakahiro/Dia_system
+detected binary path: /home/kinouchitakahiro/anaconda3/envs/DSTS/bin/uwsgi
+chdir() to /home/kinouchitakahiro/Dia_system
+*** WARNING: you are running uWSGI without its master process manager ***
+your processes number limit is 513865
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /tmp/uwsgi.sock fd 3
+Python version: 3.7.3 | packaged by conda-forge | (default, Jul  1 2019, 21:52:21)  [GCC 7.3.0]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x56428f9025a0
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 72920 bytes (71 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 11 seconds on interpreter 0x56428f9025a0 pid: 33787 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI worker 1 (and the only) (pid: 33787, cores: 1)
+Gracefully killing worker 1 (pid: 33787)...
+unlink(): No such file or directory [core/uwsgi.c line 1660]
