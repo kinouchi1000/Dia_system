@@ -7,8 +7,8 @@ class UserDB(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), default='', nullable=False)
-    email = email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Colums('password', db.String(256), default = '', nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column('password', db.String(256), default='', nullable=False)
 
     def __init__(self, name,email,password):
         self.name = name
@@ -22,13 +22,13 @@ class UserDB(db.Model):
             'email': self.email,
         }
 
-    #@classmethod
-    #def to_dicts(cls, query, usrId):
+    # @classmethod
+    # def to_dicts(cls, query, usrId):
     #    dicts = cls.to_dict(query(cls).filter(cls.id == usrId).first())
     #    return {'data': [dicts]}
 
     @classmethod
-    def exist_name(cls, query, name, email):
+    def exist_user(cls, query, name, email):
         user = query(cls).filter(
                 cls.name == name,
                 cls.email == email

@@ -24,4 +24,4 @@ class Signup(Resource):
         db.session.add(usr)
         db.session.commit()
 
-        return jsonify({'message': "Created User successfly!!"})↲
+        return jsonify({'message': "Created User successfly!!"})
