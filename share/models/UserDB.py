@@ -22,14 +22,18 @@ class UserDB(db.Model):
             'email': self.email,
         }
 
-    @classmethod
-    def to_dicts(cls, query, usrId):
-        dicts = cls.to_dict(query(cls).filter(cls.id == usrId).first())
-        return {'data': [dicts]}
+    #@classmethod
+    #def to_dicts(cls, query, usrId):
+    #    dicts = cls.to_dict(query(cls).filter(cls.id == usrId).first())
+    #    return {'data': [dicts]}
 
     @classmethod
-    def exist_name(cls, query, name):
-        user = query(cls).filter(cls.name == name).first()
+    def exist_name(cls, query, name, email):
+        user = query(cls).filter(
+                cls.name == name,
+                cls.email == email
+                ).first()
+
         if(user is None):
             return False
         else:
