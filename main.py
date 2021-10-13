@@ -20,5 +20,6 @@ with app.app_context():
 api.add_resource(Dialogue, '/api/Dialogue/<int:user_id>')
 api.add_resource(DialogueStart, '/api/Dialogue/<int:user_id>/start')
 api.add_resource(User, '/api/User')
+
 if __name__ == '__main__':
     app.run(debug=True)

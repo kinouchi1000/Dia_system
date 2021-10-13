@@ -7,14 +7,19 @@ class UserDB(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), default='', nullable=False)
+    email = email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Colums('password', db.String(256), default = '', nullable=False)
 
-    def __init__(self, name=None):
+    def __init__(self, name,email,password):
         self.name = name
+        self.email = email
+        self.password = password
 
     def to_dict(self):
         return {
             'id': self.id,
             'name': self.name,
+            'email': self.email,
         }
 
     @classmethod

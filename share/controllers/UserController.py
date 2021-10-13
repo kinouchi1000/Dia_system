@@ -16,7 +16,7 @@ class User(Resource):
         if(UserDB.exist_name(db.session.query, usrName)):
             usr = UserDB.query.filter(UserDB.name == usrName).first()
         else:
-            usr = UserDB(str(data['name']))
+            usr = UserDB(str(data['name'],data['email'],data['password']))
             db.session.add(usr)
             db.session.commit()
 
