@@ -1,7 +1,9 @@
 from Talk2Write.talk2write import talk2write  # 話し言葉→書き言葉
 from Centering_Theory import Centering_Theory  # 中心化理論
-from ResponceGenerator.Gen_reference import Gen_reference  # 対話生成(バージョン：nuccコーパスのみ)
+# 対話生成(バージョン：nuccコーパスのみ)
+from ResponceGenerator.Gen_reference import Gen_reference
 from Wrapper.Treat_log import Logger
+import readline
 
 
 class Dia_system:
@@ -19,7 +21,7 @@ class Dia_system:
     def __init__(self):
         # ユーザの設定
         T2W_model = "./Talk2Write/prefines/output_megagonalbs2"
-        GenRef_model = "./ResponceGenerator/output_prefine/output_sameDialogerConnect"
+        GenRef_model = "./ResponceGenerator/output_prefine/output_kakiNUCC"
         self.talk2write = talk2write(T2W_model, T2W_model)
         self.Centering_Theory = Centering_Theory()
         self.Gen_reference = Gen_reference(GenRef_model, GenRef_model)
@@ -37,35 +39,38 @@ class Dia_system:
         text = line.strip()
         self.logger.add_print_log("入力文:" + text)
 
-        ###データ整形部###############
-        self.logger.add_print_log("----------入力文整形----------")
+        # ##データ整形部###############
+        # self.logger.add_print_log("----------入力文整形----------")
 
         # 話し言葉→書き言葉変換
-        text = self.talk2write.translate_t2w(text)
-        self.logger.add_print_log("書き言葉変換:" + text)
+        # text = self.talk2write.translate_t2w(text)
+        # self.logger.add_print_log("書き言葉変換:" + text)
         # print("( %.5f [sec] )" % (time_length))
 
         # 文脈係り受け解析
-        text = self.Centering_Theory.Centering_Word(text, self.usr)
-        self.logger.add_print_log("文脈照応解析：" + text)
+        # text = self.Centering_Theory.Centering_Word(text, self.usr)
+        # self.logger.add_print_log("文脈照応解析:" + text)
 
-        ###応答分生成################
+        # ##応答分生成################
         self.logger.add_print_log("---------応答分生成-----------")
 
         # 機械学習による応答分生成
-        output, time = self.Gen_reference.Generate(text, self.preUser, self.SYS)
+        output, time = self.Gen_reference.Generate(
+            text, self.preUser, self.SYS)
         self.logger.add_print_log("応答文:" + output)
 
-        ###過去のダイアログの保存#####
+        # ##過去のダイアログの保存#####
         self.preUser = text
         self.SYS = output
 
         return output
 
-    ## 過去のデータリセット
+    # 過去のデータリセット
     def dialogueReset(self):
+        self.logger.add_print_log("対話リセット")
         self.SYS = ""
         self.preUser = ""
+        self.Centering_Theory.Forget_centering_element()
 
 
 # APIのためにオブジェクト作成
@@ -75,5 +80,9 @@ if __name__ == "__main__":
     Dia = Dia_system()
     while True:
         Input = input("USR:")
-        Output = Dia.main(Input)
-        print("SYS:" + Output)
+        if(Input == "reset"):
+            Dia.dialogueReset()
+            print("success reset!!")
+        else:
+            Output = Dia.main(Input)
+            print("SYS:" + Output)

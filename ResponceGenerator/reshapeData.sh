@@ -18,7 +18,7 @@ cat nucc_all.txt |
     perl -pe 's/＜.*?＞//g' |\
     perl -pe 's/【.*?】//g' |\
     perl -pe 's/　\n//g'|\
-    grep . > nucc_all.clean.txt
+    grep . > nucc_all.clean.txt 
 
 # NOTE:過去の履歴三つの場合
 cat nucc_all.clean.txt |\

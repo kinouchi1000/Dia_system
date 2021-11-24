@@ -80,3 +80,32 @@ WSGI app 0 (mountpoint='') ready in 11 seconds on interpreter 0x56428f9025a0 pid
 spawned uWSGI worker 1 (and the only) (pid: 33787, cores: 1)
 Gracefully killing worker 1 (pid: 33787)...
 unlink(): No such file or directory [core/uwsgi.c line 1660]
+[uWSGI] getting INI configuration from myapp.ini
+*** Starting uWSGI 2.0.18 (64bit) on [Thu Oct 14 02:34:25 2021] ***
+compiled with version: 7.3.0 on 22 July 2019 16:35:30
+os: Linux-5.4.0-81-generic #91~18.04.1-Ubuntu SMP Fri Jul 23 13:36:29 UTC 2021
+nodename: kinouchitakahiro-ubuntu
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 36
+current working directory: /home/kinouchitakahiro/Dia_system
+detected binary path: /home/kinouchitakahiro/anaconda3/envs/DSTS/bin/uwsgi
+chdir() to /home/kinouchitakahiro/Dia_system
+*** WARNING: you are running uWSGI without its master process manager ***
+your processes number limit is 513865
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to UNIX address /tmp/uwsgi.sock fd 3
+Python version: 3.7.3 | packaged by conda-forge | (default, Jul  1 2019, 21:52:21)  [GCC 7.3.0]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x557608f5a5b0
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 72920 bytes (71 KB) for 1 cores
+*** Operational MODE: single process ***
+WSGI app 0 (mountpoint='') ready in 10 seconds on interpreter 0x557608f5a5b0 pid: 15744 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI worker 1 (and the only) (pid: 15744, cores: 1)

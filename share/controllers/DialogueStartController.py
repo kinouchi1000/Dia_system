@@ -15,6 +15,7 @@ class DialogueStart(Resource):
     @jwt_required()
     def post(self):
         current_user = get_jwt_identity()
+        DialogueSystem.dialogueReset()    # 対話状態のリセット
         dialogueNo = DialogueDB.preDialogueNo(db.session.query, current_user)
         dia = DialogueDB(current_user, dialogueNo+1, "SYS", "こんにちは", None)
         db.session.add(dia)
