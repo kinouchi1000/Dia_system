@@ -63,10 +63,10 @@ class Gen_reference:
 
 if __name__ == "__main__":
     Gen = Gen_reference(
-        # "./output_prefine/output_notOneSEP(rinna)",
-        # "./output_prefine/output_notOneSEP(rinna)",
-        "./output_prefine/output_kakiNUCC/",
-        "./output_prefine/output_kakiNUCC/",
+        # "./model/output_notOneSEP(rinna)",
+        # "./model/output_notOneSEP(rinna)",
+        "./model/output_kakiNUCC/",
+        "./model/output_kakiNUCC/",
     )
 
     preUser = ""

@@ -20,8 +20,8 @@ class Dia_system:
     # 初期化
     def __init__(self):
         # ユーザの設定
-        T2W_model = "./Talk2Write/prefines/output_megagonalbs2"
-        GenRef_model = "./ResponceGenerator/output_prefine/output_kakiNUCC"
+        T2W_model = "./Talk2Write/model/output_megagonalbs2"
+        GenRef_model = "./ResponceGenerator/model/output_kakiNUCC"
         self.talk2write = talk2write(T2W_model, T2W_model)
         self.Centering_Theory = Centering_Theory()
         self.Gen_reference = Gen_reference(GenRef_model, GenRef_model)
