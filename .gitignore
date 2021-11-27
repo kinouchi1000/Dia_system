@@ -3,6 +3,7 @@
 *.json
 *.csv
 *.txt
+*.pt
 
 # コーパス,データ類
 Data/Log/Centering_Theory/*
@@ -10,7 +11,7 @@ Data/Log/Dia_system/*
 Data/Log/dialog/*
 Data/Log/Talk2Write/*
 
-ResponceGenerator/
+ResponceGenerator/model
 
 JDTransformer/checkpoints/*
 JDTransformer/data/dicts/*
@@ -33,6 +34,7 @@ __pycache__/
 *$py.class
 caseFrame/__pycache__/
 ResponceGenerator/__pycache__/
+JDTransformer/__pycache__/
 share/__pycache__/
 Talk2Write/__pychache__/
 Wrapper/__pychache__
