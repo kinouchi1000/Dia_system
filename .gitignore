@@ -5,12 +5,17 @@
 *.txt
 
 # コーパス,データ類
-Data/
+Data/Log/Centering_Theory/*
+Data/Log/Dia_system/*
+Data/Log/dialog/*
+Data/Log/Talk2Write/*
 
-ResponceGenerator/data/*
-ResponceGenerator/logs/*
-ResponceGenerator/model/*
-ResponceGenerator/terminal_output/
+ResponceGenerator/
+
+JDTransformer/checkpoints/*
+JDTransformer/data/dicts/*
+JDTransformer/data/sample/*
+JDTransformer/log/*
 
 share/DB/
 
@@ -19,6 +24,8 @@ Talk2Write/logs/*
 Talk2Write/model/*
 Talk2Write/terminal_output/
 Talk2Write/test/
+
+
 
 # pycache
 __pycache__/

@@ -12,11 +12,11 @@ from caseFrame.xml_SQ import XML_SQ
 
 
 try:
-    from Treat_log import Logger
+    # from Treat_log import Logger
     from Treat_mecab import Mecab
     from Treat_CaboCha import Cabocha
 except:
-    from Wrapper.Treat_log import Logger
+    # from Wrapper.Treat_log import Logger
     from Wrapper.Treat_mecab import Mecab
     from Wrapper.Treat_CaboCha import Cabocha
 
@@ -128,9 +128,10 @@ class Centering_Theory:
     Center_count = 0  # 中心化理論の実行回数
 
     # 初期化#############################################################
-    def __init__(self):
+    def __init__(self,Logger):
         # ユーザーの初期化
-        self.logger = Logger(self.__class__.__name__)  # ログ保存用
+        self.logger = Logger
+        # self.logger = Logger(self.__class__.__name__)  # ログ保存用
         self.mecab_user = Mecab()
         self.Cabocha_user = Cabocha()
         self.SQ_usr = XML_SQ("caseFrame/example.db")
@@ -140,7 +141,7 @@ class Centering_Theory:
     def Centering_Word(self, sentence, usr_id):
         # if usr_id==0 and self.talk2write_Bool==True:
         #    sentence=self.talk2write_user.translate_t2w(sentence) #話し言葉→書き言葉
-        #    self.logger.add_log("書き言葉:"+sentence)
+        #    self.logger.info("書き言葉:"+sentence)
         sentence = self.Follow_Zero_Part(sentence, usr_id)  # ゼロ代名詞の補い
         if self.ZeroPart == 0:
             self.Centering(sentence, usr_id)  # 中心化理論
@@ -150,11 +151,11 @@ class Centering_Theory:
 
     # ゼロ代名詞を求め、文章を補う##############################################
     def Follow_Zero_Part(self, sentence, usr_id):
-        self.logger.add_log("----------Zero_Part_start----------")
+        self.logger.info("----------Zero_Part_start----------")
         # 形態素解析を行う
         wakati, part = self.mecab_user.get_word_part_list(sentence)
         part = [y.split("-") for y in part]
-        self.logger.add_log("Word_list->" + str(wakati))
+        self.logger.info("Word_list->" + str(wakati))
 
         # 条件を満たしているかの判定
         Follow_Name = False  # 代名詞
@@ -206,10 +207,10 @@ class Centering_Theory:
 
         # 主題のゼロ代名詞を補う
         if Main_part == False:
-            self.logger.add_log("Not in 「は」、「が」")
+            self.logger.info("Not in 「は」、「が」")
             # 動詞、形容詞があれば補う
             if Do_part == True or Nane_follow_part == True:
-                self.logger.add_log("Word in 動詞,形容詞,名詞+助動詞")
+                self.logger.info("Word in 動詞,形容詞,名詞+助動詞")
                 if Cb != "":
                     sentence = self.Follow_word(
                         sentence, Cb, fell_part, "は", None, usr_id
@@ -239,7 +240,7 @@ class Centering_Theory:
                     Fo1_word = word_list[i][0]
                     Fo2_word = word_list[i][1]
                     # 係り元の形態素解析を行う
-                    self.logger.add_log(
+                    self.logger.info(
                         "Pair:(" + str(Fo1_word) + " → " + str(Fo2_word) + ")"
                     )
                     w_word, w_part = self.mecab_user.get_word_part_list(Fo1_word)
@@ -282,16 +283,16 @@ class Centering_Theory:
 
             # 目的語のゼロ代名詞が存在する場合
             if Ob_Follow == False:
-                self.logger.add_log("->Objectum_Follow!!")
+                self.logger.info("->Objectum_Follow!!")
                 # 格フレームでどの格を補うか調べる
                 if self.O_index != 0:
                     Ob_word = self.Ob_list[self.O_index - 1]
                     if Do_word != "" and Ob_word not in sentence and len(Ob_word) != 0:
-                        self.logger.add_log(
+                        self.logger.info(
                             "Pair:(" + str(Ob_word) + " → " + str(Do_word) + ")"
                         )
                         frame = self.SQ_usr.check(Do_word, Ob_word)
-                        self.logger.add_log("frame->" + str(frame))
+                        self.logger.info("frame->" + str(frame))
 
                         # 格助詞が判明した場合、目的語を補う
                         if frame != 0:
@@ -299,8 +300,8 @@ class Centering_Theory:
                                 sentence, Ob_word, fell_part, frame, Do_word_all, usr_id
                             )
 
-        self.logger.add_log("sentence->" + str(sentence))
-        self.logger.add_log("----------Zero_Part_end----------")
+        self.logger.info("sentence->" + str(sentence))
+        self.logger.info("----------Zero_Part_end----------")
         return sentence
 
     ##############################################################################
@@ -309,11 +310,11 @@ class Centering_Theory:
 
     # 中心化理論により、話題の焦点を探す##########################
     def Centering(self, sentence, usr_id):
-        self.logger.add_log("----------Centering_start----------")
+        self.logger.info("----------Centering_start----------")
         # 形態素解析を行う
         wakati, part = self.mecab_user.get_word_part_list(sentence)
         part = [y.split("-") for y in part]
-        self.logger.add_log("Word_list->" + str(wakati))
+        self.logger.info("Word_list->" + str(wakati))
         Cf = {}
         Cb_now = ""
 
@@ -382,7 +383,7 @@ class Centering_Theory:
 
         # ソートして、結果をリストとして出す
         Cf_sort = sorted(Cf.items(), key=lambda x: x[1])
-        self.logger.add_log("Cf:" + str(Cf_sort))
+        self.logger.info("Cf:" + str(Cf_sort))
 
         if len(Cf_sort) != 0:
             # ソートしていることにより、一番最初のリストのタプルがCpであるため代入
@@ -392,7 +393,7 @@ class Centering_Theory:
 
             # Cp履歴のリストに追加
             self.Cp_list.append(Cp)
-            self.logger.add_log("Cp:" + str(self.Cp_list))
+            self.logger.info("Cp:" + str(self.Cp_list))
             Prev_Cp = self.Cp_list[self.index - 1]
 
             # Cbを求める
@@ -404,7 +405,7 @@ class Centering_Theory:
                 if Cb_now == "":
                     Cb_now = Cp
                 self.Cb_list.append(Cb_now)
-                self.logger.add_log("Cb：" + str(self.Cb_list))
+                self.logger.info("Cb：" + str(self.Cb_list))
 
             # 状態遷移を求める
             if Cb_now == self.Cb_list[self.index - 1] or Cb_now == "":
@@ -425,16 +426,16 @@ class Centering_Theory:
                 del self.Cp_list[0]
                 self.index -= 1
 
-            # self.logger.add_log('TRAN：'+str(self.TRANSITION_list))
+            # self.logger.info('TRAN：'+str(self.TRANSITION_list))
             self.index += 1
 
-        self.logger.add_log("----------Centering_end----------")
+        self.logger.info("----------Centering_end----------")
 
     #####################################################################
 
     # 目的語の先行詞を探す############################################
     def Objectum(self, sentence):
-        self.logger.add_log("----------Objectum_start----------")
+        self.logger.info("----------Objectum_start----------")
 
         # CaboChaによりかかり受けの関係を調べる
         word_list = self.Cabocha_user.get_chunks(sentence)
@@ -446,7 +447,7 @@ class Centering_Theory:
             Fo1_word = word_list[i][0]
             Fo2_word = word_list[i][1]
             # 係り元と係り先の表示
-            self.logger.add_log("Pair:(" + str(Fo1_word) + " → " + str(Fo2_word) + ")")
+            self.logger.info("Pair:(" + str(Fo1_word) + " → " + str(Fo2_word) + ")")
             if len(self.Cp_list) != 0:
                 if self.Cp_list[self.index - 1] not in Fo1_word:
                     # 形態素解析を行う
@@ -482,10 +483,10 @@ class Centering_Theory:
                                         Ob_word = w_word[i - 1]
 
                                     self.Ob_list.append(Ob_word)
-                                    self.logger.add_log("OJ_list" + str(self.Ob_list))
+                                    self.logger.info("OJ_list" + str(self.Ob_list))
                                     self.O_index += 1
 
-        self.logger.add_log("----------Objectum_end----------")
+        self.logger.info("----------Objectum_end----------")
 
     # ゼロ代名詞の補い############################################
     def Follow_word(self, sentence, follow_word, fell_part, particle, Do_word, usr_id):
@@ -560,7 +561,7 @@ class Centering_Theory:
 
                 # 直接照応処理
                 if next_word != "":
-                    self.logger.add_log(word_list[i] + "->" + next_word)
+                    self.logger.info(word_list[i] + "->" + next_word)
                     word_list[i] = next_word
         # リストにしていた単語を文に再整形する
         sentence = ""

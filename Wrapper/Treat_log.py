@@ -107,22 +107,22 @@ class Logger:
 
 
 # 動作確認用のクラス
-class Hoge:
-    logger = Logger('Hoge')
+# class Hoge:
+#     logger = Logger('Hoge')
 
-    def Func(self):
-        self.logger.add_log('Add_log')
-        self.logger.add_print_log('Add_print_log')
-        self.logger.print_sentence('Print_sentence')
-        self.logger.print_list(['A', 'B'])
-        self.logger.print_list_2row(['A', 'B'], ['C', 'D'])
-        self.logger.print_pprint_list([['A', 'B'], ['C', 'D']])
-        self.logger.count_time('Hoge', -1)
-        self.logger.count_time('Hoge', 0)
+#     def Func(self):
+#         self.logger.add_log('Add_log')
+#         self.logger.add_print_log('Add_print_log')
+#         self.logger.print_sentence('Print_sentence')
+#         self.logger.print_list(['A', 'B'])
+#         self.logger.print_list_2row(['A', 'B'], ['C', 'D'])
+#         self.logger.print_pprint_list([['A', 'B'], ['C', 'D']])
+#         self.logger.count_time('Hoge', -1)
+#         self.logger.count_time('Hoge', 0)
 
         # self.logger.Add_print_log(self.__class__.__name__ + "." + sys._getframe().f_code.co_name)
 
 
-if __name__ == "__main__":
-    hoge = Hoge()
-    hoge.Func()
+# if __name__ == "__main__":
+#     hoge = Hoge()
+#     hoge.Func()
