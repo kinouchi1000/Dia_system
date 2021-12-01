@@ -5,33 +5,12 @@
 # import sys
 # import re
 
-from Wrapper.Treat_log import Logger
+from .Treat_log import Logger
 import torch
 import datetime
 import argparse
 from logging import getLogger, StreamHandler, FileHandler, Formatter, DEBUG, WARN, INFO
 from transformers import pipeline, AutoTokenizer, T5ForConditionalGeneration
-
-# AutoModelForSeq2seqLM
-# NOTEのまま！変更するべき
-
-# モデルとトークナイザーの準備
-
-
-def set_logger(name, dirname="log/main/"):
-    dt_now = datetime.now()
-    dt = dt_now.strftime('%Y%m%d_%H%M%S')
-    fname = dirname + dt
-    logger = getLogger(name)
-    #handler1 = StreamHandler()
-    #handler1.setFormatter(Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s"))
-    handler2 = FileHandler(filename=fname)
-    handler2.setLevel(DEBUG)  # handler2はLevel.WARN以上
-    handler2.setFormatter(
-        Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s"))
-    # logger.addHandler(handler1)
-    logger.addHandler(handler2)
-    return logger
 
 
 class talk2write:
@@ -73,7 +52,7 @@ class talk2write:
             # \, max_length=100, min_length=5, length_penalty=5., num_beams=2)
             output = self.tokenizer.decode(output_ids[0])
             self.logger.info("preFormat output:" + output)
-            # データ整形
+            # Format output Data
             output = output.replace("</s>", '')
             output = output.replace("<unk> ", '')
             output = output.replace("<pad> ", '')
@@ -83,6 +62,7 @@ class talk2write:
         return output
 
 
+# =========================================
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--talk2write-model-dir', type=str,
@@ -91,9 +71,9 @@ if __name__ == "__main__":
                         help='Talk-to-Write tokenizer directory')
     args = parser.parse_args()
 
-    Logger = set_logger("Talk2Write", "logs/generator/")
+    logger = Logger.set_logger("Talk2Write", "logs/generator/")
 
-    t2w = talk2write(args, Logger)
+    t2w = talk2write(args, logger)
 
     while 1:
         # try:
@@ -107,8 +87,6 @@ if __name__ == "__main__":
         # pass
 
 # 対話モデルのコーパスを話し言葉に変換するときに使ったもの
-
-
 # if __name__ == "__main__":
 #     t2w = talk2write('./prefines/output_megagonalbs2',
 #                      './prefines/output_megagonalbs2')

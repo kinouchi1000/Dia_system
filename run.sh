@@ -2,11 +2,15 @@
 
 set -eu
 
+# DIALOGUE_MODEL=JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-empdial50k.pt
+DIALOGUE_MODEL=JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-persona50k.pt
+
 # 仮想環境の起動＊＊＊人によって違うので、注意！
 . /home/kinouchitakahiro/anaconda3/etc/profile.d/conda.sh && conda deactivate && conda activate DSTS
+
 # 対話システム実行
 python Dia_system.py JDTransformer/data/sample/bin/ \
-  --path JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-empdial50k.pt \
+  --path $DIALOGUE_MODEL \
   --beam 80 \
   --min-len 10 \
   --source-lang src \

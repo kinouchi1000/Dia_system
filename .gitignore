@@ -13,6 +13,8 @@ Data/Log/Talk2Write/*
 
 ResponceGenerator/model
 
+TextCompletion/caseFrame/example.db
+
 JDTransformer/checkpoints/*
 JDTransformer/data/dicts/*
 JDTransformer/data/sample/*
@@ -32,12 +34,7 @@ Talk2Write/test/
 __pycache__/
 *.py[cod]
 *$py.class
-caseFrame/__pycache__/
-ResponceGenerator/__pycache__/
-JDTransformer/__pycache__/
-share/__pycache__/
-Talk2Write/__pychache__/
-Wrapper/__pychache__
+
 
 # その他
 transformers/
