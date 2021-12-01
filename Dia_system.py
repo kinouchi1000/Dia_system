@@ -1,6 +1,6 @@
 import readline
+from Logger import Logger
 from datetime import datetime
-from Wrapper.Treat_log import Logger  # logger
 from logging import getLogger, StreamHandler, FileHandler, Formatter, DEBUG, WARN, INFO
 from typing_extensions import ParamSpecArgs
 
@@ -38,6 +38,8 @@ class DiaSystemModel:
         self.diaLogger = Logger.set_logger("dialog", logPath + "dialog/")
 
         # Model
+        self.talk2write = None
+        self.Centering_Theory = None
         # 書き言葉変換
         if(args.use_talk2write_model):
             self.talk2write = talk2write(args, self.t2wLogger)
@@ -69,15 +71,18 @@ class DiaSystem:
         # uttr = self.inputFormat(uttr)           #　入力整形
 
         # 話し言葉→書き言葉変換
-        uttr = self.dModel.talk2write.translate_t2w(uttr)
-        self.dModel.mainLogger.info("書き言葉変換:" + uttr)
+        if(self.dModel.talk2write != None):
+            uttr = self.dModel.talk2write.translate_t2w(uttr)
+            self.dModel.mainLogger.info("書き言葉変換:" + uttr)
 
         # 文脈係り受け解析
-        preUttr = self.dModel.Centering_Theory.Centering_Word(
-            preUttr, 1)   # 前の対話
-        uttr = self.dModel.Centering_Theory.Centering_Word(
-            uttr, 0)         # 現在の対話
-        self.dModel.mainLogger.info("文脈照応解析:" + uttr)
+
+        if(self.dModel.Centering_Theory != None):
+            # 前の対話
+            preUttr = self.dModel.Centering_Theory.Centering_Word(preUttr, 1)
+            # 現在の対話
+            uttr = self.dModel.Centering_Theory.Centering_Word(uttr, 0)
+            self.dModel.mainLogger.info("文脈照応解析:" + uttr)
 
         # 応答生成
         self.dModel.mainLogger.info("---------応答分生成-----------")
@@ -107,13 +112,13 @@ def add_local_args(parser):
         default="こんにちは。よろしくお願いします。",
         type=str,
         help='starting phrase')
-    parser.add_argument('--use-talk2write-model', default=True,
-                        type=bool, help='Use convertor talk-to-write model')
+    parser.add_argument('--use-talk2write-model', action='store_true',
+                        help='Use convertor talk-to-write model')
     parser.add_argument('--talk2write-model-dir', type=str,
                         help='Talk-to-Write model directory')
     parser.add_argument('--talk2write-tokenizer-dir', type=str,
                         help='Talk-to-Write tokenizer directory')
-    parser.add_argument('--use-centering-method', default=True, type=bool,
+    parser.add_argument('--use-centering-method', action='store_true',
                         help='Use Centering Method for Contextual resolution')
     return parser
 

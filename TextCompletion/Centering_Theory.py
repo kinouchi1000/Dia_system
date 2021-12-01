@@ -8,20 +8,15 @@ import re
 import threading
 import readline
 from datetime import datetime
-# from .Wrapper.Treat_log import Logger
 from logging import getLogger, StreamHandler, FileHandler, Formatter, DEBUG, WARN, INFO
 from colorama import Fore, Back, Style
-from caseFrame.xml_SQ import XML_SQ
-
-# from talk2write import talk2write
-
 
 try:
-    # from Treat_log import Logger
-    from Treat_mecab import Mecab
-    from Treat_CaboCha import Cabocha
-except BaseException:
-    # from Wrapper.Treat_log import Logger
+    from .caseFrame.xml_SQ import XML_SQ
+    from .Wrapper.Treat_mecab import Mecab
+    from .Wrapper.Treat_CaboCha import Cabocha
+except:
+    from caseFrame.xml_SQ import XML_SQ
     from Wrapper.Treat_mecab import Mecab
     from Wrapper.Treat_CaboCha import Cabocha
 
@@ -31,7 +26,6 @@ class Centering_Theory:
     logger = None  # ログ保存用
     mecab_user = None  # MeCab使用用
     Cabocha_user = None  # CaboCha使用用
-    # talk2write_user=None  # 話し言葉→書き言葉使用用
     SQ_usr = None  # 格フレーム検索用
 
     talk2write_Bool = True  # 話し言葉→書き言葉切り替え用
@@ -136,11 +130,9 @@ class Centering_Theory:
     def __init__(self, Logger, DBPath='TextCompletion/caseFrame/example.db'):
         # ユーザーの初期化
         self.logger = Logger
-        # self.logger = Logger(self.__class__.__name__)  # ログ保存用
         self.mecab_user = Mecab()
         self.Cabocha_user = Cabocha()
         self.SQ_usr = XML_SQ(DBPath)
-        # self.talk2write_user=talk2write()
 
     # 中心化理論を用いて、文章を補う####################################
     def Centering_Word(self, sentence, usr_id):
