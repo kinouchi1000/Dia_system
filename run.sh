@@ -2,8 +2,8 @@
 
 set -eu
 
-# DIALOGUE_MODEL=JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-empdial50k.pt
-DIALOGUE_MODEL=JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-persona50k.pt
+DIALOGUE_MODEL=JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-empdial50k.pt
+# DIALOGUE_MODEL=JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-persona50k.pt
 CENTENCEPIECE_MODEL=JDTransformer/data/dicts/sp_oall_32k.model
 
 # 書き言葉話し言葉変換 モデル
@@ -31,6 +31,5 @@ python Dia_system.py JDTransformer/data/sample/bin/ \
   --show-nbest 5 \
   --talk2write-model-dir $T2W_MODEL \
   --talk2write-tokenizer-dir $T2W_MODEL \
-  # --use-talk2write-model \
-  # --use-centering-method \
-
+  --use-talk2write-model \
+  --use-centering-method \

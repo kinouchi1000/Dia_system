@@ -138,8 +138,10 @@ class Centering_Theory:
     def Centering_Word(self, sentence, usr_id):
 
         # 2文以上で構成されていたら、「。」で分割 -- 20211129
+        print(sentence)
         sentenceList = re.split('(?<=[。！？!?.])', sentence)
-        sentenceList.remove('')
+        if '' in sentenceList:
+            sentenceList.remove('')
         self.logger.info('input:'+str(sentenceList))
 
         output = ''

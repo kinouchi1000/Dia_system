@@ -7,6 +7,7 @@
 
 from .Treat_log import Logger
 import torch
+import re
 import datetime
 import argparse
 from logging import getLogger, StreamHandler, FileHandler, Formatter, DEBUG, WARN, INFO
@@ -34,7 +35,24 @@ class talk2write:
 
     # 話し言葉から書き言葉へ変換
     def translate_t2w(self, text):
-        self.logger.info("input:"+text)
+
+        # テキストを文ごとに分割
+        textList = re.split('(?<=[。！？!?.])', text)
+        self.logger.info(textList)
+
+        output = ''
+        # nullを除去
+        if '' in textList:
+            textList.remove('')
+        # それぞれを書き言葉変換
+        for t in textList:
+            output += self.translate(t)
+
+        self.logger.info("all Translated text:"+output)
+        return output
+
+    def translate(self, text):
+        self.logger.info("preTranslate:"+text)
         # 入力データ整形
         text = text.replace("?", "？")
 
@@ -57,7 +75,7 @@ class talk2write:
             output = output.replace("<unk> ", '')
             output = output.replace("<pad> ", '')
 
-        self.logger.info("output:"+output)
+        self.logger.info("Translated:"+output)
 
         return output
 

@@ -76,7 +76,6 @@ class DiaSystem:
             self.dModel.mainLogger.info("書き言葉変換:" + uttr)
 
         # 文脈係り受け解析
-
         if(self.dModel.Centering_Theory != None):
             # 前の対話
             preUttr = self.dModel.Centering_Theory.Centering_Word(preUttr, 1)
@@ -93,12 +92,14 @@ class DiaSystem:
 
     # 過去のデータリセット
     def dialogueReset(self):
-        self.favot.reset(0)
-        self.Centering_Theory.Forget_centering_element()
-
+        self.dModel.favot.reset()
+        if(self.dModel.Centering_Theory != None):
+            self.dModel.Centering_Theory.Forget_centering_element()
+        self.dModel.mainLogger.info("----------対話内容---------------")
 
 # APIのためにオブジェクト作成
 # DialogueSystem = DiaSystem()
+
 
 def add_local_args(parser):
     parser.add_argument('--max-contexts', type=int, default=4,
@@ -136,13 +137,15 @@ def main():
     diaSystem = DiaSystem(diaSystemModel)
     output = diaSystemModel.favot.execute("||init||")[0]
     print(output)
-
+    turnCount = 0  # debug用
     while True:
 
         text = input("USR:")
         if text.startswith("/reset"):
             diaSystem.dialogueReset()
-            print("success reset!!")
+            output = diaSystemModel.favot.execute("||init||")[0]
+            print("success to reset!!")
+            turnCount = 0
             continue
         output = diaSystem.main(text, output)
         if output is None or len(output) != 2:
@@ -152,6 +155,10 @@ def main():
             diaSystemModel.diaLogger.info("sys_uttr:" + output)
             print("\n".join(output_debug))
             print("SYS:" + output)
+
+            # debug
+            turnCount += 2
+            print(str(turnCount))
 
 
 if __name__ == "__main__":
