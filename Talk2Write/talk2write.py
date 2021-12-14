@@ -4,8 +4,10 @@
 # import time
 # import sys
 # import re
-
-from .Treat_log import Logger
+try:
+    from Treat_log import Logger
+except:
+    from .Treat_log import Logger
 import torch
 import re
 import datetime

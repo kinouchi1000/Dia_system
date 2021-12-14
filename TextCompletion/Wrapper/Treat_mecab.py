@@ -88,13 +88,13 @@ class Mecab:
     MECAB_NEOLOGD_DIC_PATH = '/home/kinouchitakahiro/anaconda3/envs/DSTS/lib/mecab/dic/mecab-ipadic-neologd'
 
     # 変格活用の辞書の定義
-    conjugation_dic={
-        '基本形':1,
-        '未然形':2,
-        '連用形':3,
-        '仮定形':4,
-        '命令ｅ':5,
-        '連用タ接続':6
+    conjugation_dic = {
+        '基本形': 1,
+        '未然形': 2,
+        '連用形': 3,
+        '仮定形': 4,
+        '命令ｅ': 5,
+        '連用タ接続': 6
     }
 
     # 解析器を用意
@@ -128,7 +128,7 @@ class Mecab:
         node = self.mecab_tagger_chasen.parseToNode(word)
         node = node.next
         node_info = node.feature
-        
+
         return node_info
 
     # 引数の単語の原型を返す
@@ -165,16 +165,13 @@ class Mecab:
         print(info_list)
         for sub in info_list:
             if sub[0] != 'EOS' and sub[0] != '':
-                word=sub[2]
-        return word    
-    
+                word = sub[2]
+        return word
+
+
 if __name__ == "__main__":
     user = Mecab()
-    i = input('input:')
-    original=user.get_original_word(i)
-    print(original)
-    if original ==None:
-        original = i
-    part_id=user.get_part_id(original)
-    print(part_id)
-    
+    while True:
+        i = input('input:')
+        original = user.get_part_id(i)
+        print(original)

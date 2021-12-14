@@ -10,8 +10,13 @@ Data/Log/Centering_Theory/*
 Data/Log/Dia_system/*
 Data/Log/dialog/*
 Data/Log/Talk2Write/*
+Data/Log/Dia_system_CSV
 
-ResponceGenerator/model
+ResponceGenerator/data/*
+ResponceGenerator/kakikotoba_Data/*
+ResponceGenerator/logs/*
+ResponceGenerator/model/*
+ResponceGenerator/terminal_output/*
 
 TextCompletion/caseFrame/example.db
 

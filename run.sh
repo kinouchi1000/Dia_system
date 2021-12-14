@@ -7,7 +7,7 @@ DIALOGUE_MODEL=JDTransformer/checkpoints/japanese-dialog-transformer-1.6B-empdia
 CENTENCEPIECE_MODEL=JDTransformer/data/dicts/sp_oall_32k.model
 
 # 書き言葉話し言葉変換 モデル
-T2W_MODEL=./Talk2Write/model/output_megagonalbs2
+T2W_MODEL=./Talk2Write/model/megagonlabs3/checkpoint-12500
 
 
 # 仮想環境の起動＊＊＊人によって違うので、注意！

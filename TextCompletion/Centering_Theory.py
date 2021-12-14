@@ -92,6 +92,7 @@ class Centering_Theory:
     Not_noun_words = [
         'どれ',
         'どこ',
+        'なに',  # 2021.12 kinouchi
     ]
 
     # 照応詞の辞書(三人称のみ)
@@ -115,8 +116,10 @@ class Centering_Theory:
         'これ': 2,
         'これら': 2,
         'それ': 2,
+        'その': 2,  # 2021.12 kinouchi
         'それら': 2,
         'あれ': 2,
+        'あの': 2,  # 2021.12 kinouchi
         'あれら': 2,
     }
 
@@ -148,12 +151,12 @@ class Centering_Theory:
         # 照応解析開始
         for s in sentenceList:
             self.logger.info('text:' + s + ' user->' + str(usr_id))
-            output += self.Follow_Zero_Part(s, usr_id)  # ゼロ代名詞の補い
+            s = self.Follow_Zero_Part(s, usr_id)  # ゼロ代名詞の補い
             if self.ZeroPart == 0:
                 self.Centering(s, usr_id)  # 中心化理論
                 self.Objectum(s)  # 目的語の先行詞の探索
             self.ZeroPart = 0
-
+            output += s
         self.logger.info('result:'+output)
         return output
 
@@ -209,10 +212,10 @@ class Centering_Theory:
                         Nane_follow_part = True
 
         # はじめの発話は,ゼロ代名詞を補わない
-        if self.index == 0:
+        if len(self.Cb_list) == 0:
             Cb = ''
         else:
-            Cb = self.Cb_list[self.index - 1]
+            Cb = self.Cb_list[-1]
 
         # 主題のゼロ代名詞を補う
         if not Main_part:
@@ -411,8 +414,8 @@ class Centering_Theory:
 
             # Cp履歴のリストに追加
             self.Cp_list.append(Cp)
-            self.logger.info('Cp:' + str(self.Cp_list))
-            Prev_Cp = self.Cp_list[self.index - 1]
+            Prev_Cp = self.Cp_list[- 1]
+            self.logger.info('Cp:' + str(Prev_Cp))
 
             # Cbを求める
             # 前のCpがある場合、文の中にCpの単語があるかどうか確認
@@ -426,12 +429,12 @@ class Centering_Theory:
                 self.logger.info('Cb：' + str(self.Cb_list))
 
             # 状態遷移を求める
-            if Cb_now == self.Cb_list[self.index - 1] or Cb_now == '':
+            if Cb_now == self.Cb_list[-1] or Cb_now == '':
                 if Cb_now == Cp:
                     self.TRANSITION_list.append('CONTINUE')
                 elif Cb_now != Cp:
                     self.TRANSITION_list.append('RETAIN')
-            elif Cb_now != self.Cb_list[self.index - 1]:
+            elif Cb_now != self.Cb_list[-1]:
                 if Cb_now == Cp:
                     self.TRANSITION_list.append('SMOOTH-SHIFT')
                 elif Cb_now != Cp:
@@ -442,10 +445,10 @@ class Centering_Theory:
             if len(self.Cb_list) > 20 and len(self.Cp_list) > 20:
                 del self.Cb_list[0]
                 del self.Cp_list[0]
-                self.index -= 1
+                #self.index -= 1
 
-            # self.logger.info('TRAN：'+str(self.TRANSITION_list))
-            self.index += 1
+            self.logger.info('TRAN：'+str(self.TRANSITION_list[-1]))
+            #self.index += 1
 
         self.logger.info('----------Centering_end----------')
 
@@ -468,7 +471,7 @@ class Centering_Theory:
             self.logger.info('Pair:(' + str(Fo1_word) +
                              ' → ' + str(Fo2_word) + ')')
             if len(self.Cp_list) != 0:
-                if self.Cp_list[self.index - 1] not in Fo1_word:
+                if self.Cp_list[-1] not in Fo1_word:
                     # 形態素解析を行う
                     w_word, w_part = self.mecab_user.get_word_part_list(
                         Fo1_word)
@@ -476,32 +479,30 @@ class Centering_Theory:
                     d_wakati, d_part = self.mecab_user.get_word_part_list(
                         Fo2_word)
                     d_part = [y.split('-')[0] for y in d_part]
-                    # 述語であるかどうか
+                    # かかり先が述語であるかどうか
                     if '動詞' in d_part or '形容詞' in d_part or '助動詞' in d_part:
                         len_w_part = len(w_part)
-                        for i in range(len_w_part):
+                        for j in range(len_w_part):
                             # 名詞 + 助詞である場合
-                            part = w_part[i][0]
-                            p_part = w_part[i - 1][0]
+                            part = w_part[j][0]
+                            p_part = w_part[j - 1][0]
 
                             if part == '助詞' and p_part == '名詞':
                                 # 先行詞には用いない単語を探索
-                                if (w_word[i -
-                                           1] not in self.AVOID_WORD_LIST and w_word[i -
-                                                                                     1] not in self.Not_noun_words):
+                                if (w_word[j - 1] not in self.AVOID_WORD_LIST and w_word[j - 1] not in self.Not_noun_words):
                                     Ob_word = ''
                                     # 「の、こと、もの」
-                                    if w_word[i - 1] in self.FOLLOW_WORD_LIST:
-                                        Ob_word = w_word[i - 2]
+                                    if w_word[j - 1] in self.FOLLOW_WORD_LIST:
+                                        Ob_word = w_word[j - 2]
 
                                     # 「名詞+接尾」の場合は前の単語と統合する
-                                    elif w_part[i - 1][1] == '接尾':
-                                        if w_part[i - 2][0] == '名詞':
-                                            Ob_word = w_word[i -
-                                                             2] + w_word[i - 1]
+                                    elif w_part[j - 1][1] == '接尾':
+                                        if w_part[j - 2][0] == '名詞':
+                                            Ob_word = w_word[j -
+                                                             2] + w_word[j - 1]
                                     # それ以外はそのまま
                                     else:
-                                        Ob_word = w_word[i - 1]
+                                        Ob_word = w_word[j - 1]
 
                                     self.Ob_list.append(Ob_word)
                                     self.logger.info(
@@ -634,7 +635,7 @@ class Centering_Theory:
         self.TRANSITION_list = []  # 状態変異のリスト
         self.Cb_list = []  # Cbのリスト
         self.Ob_list = []  # 目的語の先行詞のリスト
-        self.index = 0  # Cbのインデックス
+        # self.index = 0  # Cbのインデックス
         self.O_index = 0  # Obのインデックス
 
 # Logger

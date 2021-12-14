@@ -72,16 +72,23 @@ class DiaSystem:
 
         # 話し言葉→書き言葉変換
         if(self.dModel.talk2write != None):
+            # 前回の対話
+            preUttr = self.dModel.talk2write.translate_t2w(uttr)
+            self.dModel.mainLogger.info("SYS書き言葉変換:"+ preUttr)
+            
+            # 現在の対話
             uttr = self.dModel.talk2write.translate_t2w(uttr)
-            self.dModel.mainLogger.info("書き言葉変換:" + uttr)
+            self.dModel.mainLogger.info("USR書き言葉変換:" + uttr)
+
 
         # 文脈係り受け解析
         if(self.dModel.Centering_Theory != None):
             # 前の対話
             preUttr = self.dModel.Centering_Theory.Centering_Word(preUttr, 1)
+            self.dModel.mainLogger.info("SYS照応解析:" + preUttr)
             # 現在の対話
             uttr = self.dModel.Centering_Theory.Centering_Word(uttr, 0)
-            self.dModel.mainLogger.info("文脈照応解析:" + uttr)
+            self.dModel.mainLogger.info("USR照応解析:" + uttr)
 
         # 応答生成
         self.dModel.mainLogger.info("---------応答分生成-----------")
