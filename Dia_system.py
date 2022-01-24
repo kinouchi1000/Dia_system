@@ -73,7 +73,7 @@ class DiaSystem:
         # 話し言葉→書き言葉変換
         if(self.dModel.talk2write != None):
             # 前回の対話
-            preUttr = self.dModel.talk2write.translate_t2w(uttr)
+            preUttr = self.dModel.talk2write.translate_t2w(preUttr)
             self.dModel.mainLogger.info("SYS書き言葉変換:"+ preUttr)
             
             # 現在の対話

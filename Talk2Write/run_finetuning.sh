@@ -28,20 +28,23 @@ python ../transformers/examples/seq2seq/run_translation.py \
     --output_dir "./model/$2" \
     --per_device_train_batch_size=4 \
     --per_device_eval_batch_size=4 \
+    --max_val_samples 500 \
+    --max_val_samples 500 \
+    --save_total_limit 5
     --overwrite_output_dir \
     --predict_with_generate \
     --logging_dir="./logs/$2" \
     --logging_strategy steps \
     --logging_first_step true \
     --logging_steps 500 \
-    --num_train_epochs 10 \
+    --num_train_epochs 100 \
     --disable_tqdm false \
     --evaluation_strategy steps \
     || line_notify "計算失敗"
 line_notify "$2:計算終了"
 }
 
-# fine_tune "megagonlabs/t5-base-japanese-web" "megagonlabs3"
-fine_tune "sonoisa/t5-base-japanese" "sonoisa3"
+fine_tune "megagonlabs/t5-base-japanese-web" "megagonlabs_miss20211220"
+# fine_tune "sonoisa/t5-base-japanese" "sonoisa_miss20211220"
 
 

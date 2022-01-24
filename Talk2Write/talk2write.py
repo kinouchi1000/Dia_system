@@ -48,7 +48,17 @@ class talk2write:
             textList.remove('')
         # それぞれを書き言葉変換
         for t in textList:
-            output += self.translate(t)
+            lastChar = t[-1:]
+            WC = self.translate(t) #書き言葉変換
+
+            #末尾に終止文字がなかった場合補完
+            if(re.search('[.。?？!！]',WC)==None):
+                if(re.search('[.。?？!！]',lastChar)):
+                    WC = WC + lastChar
+                else:
+                    WC = WC+"。"
+            
+            output += WC
 
         self.logger.info("all Translated text:"+output)
         return output
